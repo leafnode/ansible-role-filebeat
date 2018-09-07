@@ -1,0 +1,54 @@
+filebeat:
+  prospectors:
+    -
+      paths:
+{% for path in filebeat_syslog_paths %}
+        - {{ path }}
+{% endfor %}
+      fields:
+        input: beat
+      type: log
+      document_type: syslog
+{% for item in filebeat_custom_paths %}
+    -
+      paths:
+        - {{ item.path }}
+      fields:
+        input: beat
+{% if item.type is defined %}
+        type: {{ item.type }}
+      document_type: {{ item.type }}
+{% endif %}
+{% endfor %}
+{% if filebeat_log_nginx %}
+    -
+      paths:
+        - /var/log/nginx/*-access_log
+      fields:
+        input: beat
+        type: nginx-access
+      type: log
+      document_type: nginx-access
+    -
+      paths:
+        - /var/log/nginx/*-error_log
+      fields:
+        input: beat
+        type: nginx-error
+      type: log
+      document_type: nginx-error
+{% endif %}
+
+output:
+  logstash:
+    hosts: ["{{ elk_server }}:{{ logstash_syslog_port }}"]
+    bulk_max_size: 1024
+    ssl:
+      certificate_authorities: [/etc/beat/ca.pem]
+      certificate: "/etc/beat/beat-forwarder.crt"
+      key: "/etc/beat/beat-forwarder.key"
+      supported_protocols: [TLSv1.0, TLSv1.1, TLSv1.2, SSLv3]
+
+logging:
+  files:
+    rotateeverybytes: 10485760 # = 10MB

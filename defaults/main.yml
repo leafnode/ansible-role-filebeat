@@ -1,0 +1,7 @@
+elk_server: localhost
+logstash_syslog_port: 5044
+filebeat_key_id: 'D88E42B4'
+filebeat_log_nginx: false
+filebeat_syslog_paths:
+  - /var/log/syslog
+  - /var/log/auth
