@@ -1,4 +1,5 @@
 elk_server: localhost
+elk_ca_cert_path: /etc/beat/ca.pem
 logstash_syslog_port: 5044
 filebeat_key_id: 'D88E42B4'
 filebeat_log_nginx: false

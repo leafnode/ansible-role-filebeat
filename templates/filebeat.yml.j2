@@ -44,7 +44,7 @@ output:
     hosts: ["{{ elk_server }}:{{ logstash_syslog_port }}"]
     bulk_max_size: 1024
     ssl:
-      certificate_authorities: [{{ elk_ca_cert }}]
+      certificate_authorities: [{{ elk_ca_cert_path }}]
       certificate: "/etc/beat/beat-forwarder.crt"
       key: "/etc/beat/beat-forwarder.key"
       supported_protocols: [TLSv1.0, TLSv1.1, TLSv1.2, SSLv3]
