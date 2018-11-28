@@ -1,5 +1,2 @@
 ---
-- src: https://github.com/iroquoisorg/ansible-role-elk-client.git
-  name: elk-client
-  version: master
-  scm: git
+- src: iroquoisorg.elk-client
